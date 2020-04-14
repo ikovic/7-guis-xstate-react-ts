@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 import Counter from "./tasks/counter/Counter";
 import TemperatureConverter from "./tasks/temperatureConverter/TemperatureConverter";
+import FlightBooker from "./tasks/flightBooker/FlightBooker";
 
 import "./App.css";
 
@@ -17,6 +18,9 @@ function App() {
             </li>
             <li>
               <Link to="/temperature-converter">Temperature Converter</Link>
+            </li>
+            <li>
+              <Link to="/flight-booker">Flight Booker</Link>
             </li>
           </ul>
         </nav>
@@ -38,6 +42,9 @@ function App() {
             </Route>
             <Route path="/temperature-converter">
               <TemperatureConverter />
+            </Route>
+            <Route path="/flight-booker">
+              <FlightBooker />
             </Route>
           </Switch>
         </main>
