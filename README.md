@@ -1,6 +1,6 @@
 # 7GUIs: React + XState + TypeScript solution
 
-This repo contains solutions to [https://eugenkiss.github.io/7guis/](7GUIs) set of tasks. Point of this is to get some hands on experience with XState and to get more comfortable with using state machines as a design and state management tool.
+This repo contains solutions to [7GUIs](https://eugenkiss.github.io/7guis/) set of tasks. Point of this is to get some hands on experience with XState and to get more comfortable with using state machines as a design and state management tool.
 
 ## Available Scripts
 
