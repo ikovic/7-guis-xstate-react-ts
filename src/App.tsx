@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Counter from "./tasks/counter/Counter";
 import TemperatureConverter from "./tasks/temperatureConverter/TemperatureConverter";
 import FlightBooker from "./tasks/flightBooker/FlightBooker";
+import Timer from "./tasks/timer/Timer";
 
 import "./App.css";
 
@@ -21,6 +22,9 @@ function App() {
             </li>
             <li>
               <Link to="/flight-booker">Flight Booker</Link>
+            </li>
+            <li>
+              <Link to="/timer">Timer</Link>
             </li>
           </ul>
         </nav>
@@ -45,6 +49,9 @@ function App() {
             </Route>
             <Route path="/flight-booker">
               <FlightBooker />
+            </Route>
+            <Route path="/timer">
+              <Timer />
             </Route>
           </Switch>
         </main>
