@@ -73,7 +73,7 @@ const crudReducer = (state: CrudState, action: ActionType): CrudState => {
       return { ...state, selectedUser: null, name: "", surname: "" };
     }
     case "setFilter": {
-      return { ...state, filter: action.filter };
+      return { ...state, selectedUser: null, filter: action.filter };
     }
     case "updateName": {
       return { ...state, name: action.name };

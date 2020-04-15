@@ -14,6 +14,10 @@ const USERS_ENDPOINT_URL = "http://localhost:3001/users";
 export function createUser(user: NewUser): Promise<User[]> {
   return fetch(USERS_ENDPOINT_URL, {
     method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify(user),
   }).then((response) => response.json());
 }
@@ -21,6 +25,10 @@ export function createUser(user: NewUser): Promise<User[]> {
 export function updateUser(user: User): Promise<User> {
   return fetch(`${USERS_ENDPOINT_URL}/${user.id}`, {
     method: "PUT",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify(user),
   }).then((response) => response.json());
 }

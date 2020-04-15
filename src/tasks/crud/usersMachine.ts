@@ -4,15 +4,15 @@ import { User, getUsers, deleteUser, createUser, updateUser } from "./users";
 interface UsersContext {
   users: User[];
   error: null | Error;
+  userBuffer: null | User;
 }
-
-// TODO: how to use invoke with event payload that was used to trigger that state
 
 const usersMachine = Machine<UsersContext>({
   id: "usersMachine",
   context: {
     users: [],
     error: null,
+    userBuffer: null,
   },
   initial: "initial",
   states: {
