@@ -1,6 +1,110 @@
 import React from "react";
+import { useMachine } from "@xstate/react";
+
+import usersMachine from "./usersMachine";
+import { User } from "./users";
+interface UserListProps {
+  users: User[];
+  selectedUser: null | User;
+  handleSelect: (user: User) => void;
+  clearSelection: () => void;
+}
+const UserList = ({
+  users,
+  selectedUser,
+  handleSelect,
+  clearSelection,
+}: UserListProps) => {
+  if (users.length === 0) {
+    return <span>No results</span>;
+  }
+
+  return (
+    <ul>
+      {users.map((user) => (
+        <li
+          key={user.id}
+          onClick={() => {
+            if (selectedUser && selectedUser.id === user.id) {
+              clearSelection();
+            } else {
+              handleSelect(user);
+            }
+          }}
+          style={{
+            ...(selectedUser && selectedUser.id === user.id
+              ? { backgroundColor: "blue", color: "white" }
+              : {}),
+          }}
+        >{`${user.surname}, ${user.name}`}</li>
+      ))}
+    </ul>
+  );
+};
+
+interface CrudState {
+  selectedUser: null | User;
+  name: string;
+  surname: string;
+  filter: string;
+}
+
+type ActionType =
+  | { type: "selectUser"; user: User }
+  | { type: "clearSelection" }
+  | { type: "updateName"; name: string }
+  | { type: "updateSurname"; surname: string }
+  | { type: "setFilter"; filter: string };
+
+const initialState = {
+  selectedUser: null,
+  name: "",
+  surname: "",
+  filter: "",
+};
+
+const crudReducer = (state: CrudState, action: ActionType): CrudState => {
+  switch (action.type) {
+    case "selectUser": {
+      const { name, surname } = action.user;
+      return { ...state, selectedUser: action.user, name, surname };
+    }
+    case "clearSelection": {
+      return { ...state, selectedUser: null, name: "", surname: "" };
+    }
+    case "setFilter": {
+      return { ...state, filter: action.filter };
+    }
+    case "updateName": {
+      return { ...state, name: action.name };
+    }
+    case "updateSurname": {
+      return { ...state, surname: action.surname };
+    }
+    default:
+      return state;
+  }
+};
 
 const Crud = () => {
+  const [{ selectedUser, name, surname, filter }, dispatch] = React.useReducer(
+    crudReducer,
+    initialState
+  );
+  const [current, send] = useMachine(usersMachine);
+
+  const { users } = current.context;
+
+  const userSelected = selectedUser !== null;
+
+  const filteredUsers = React.useMemo(() => {
+    if (filter === "") {
+      return users;
+    }
+
+    return users.filter((user) => user.surname.startsWith(filter));
+  }, [filter, users]);
+
   return (
     <article>
       <h2>CRUD</h2>
@@ -46,22 +150,83 @@ const Crud = () => {
       <h3>Solution</h3>
       <div>
         <label htmlFor="filterInput">Filter prefix: </label>
-        <input id="filterInput" type="text" />
+        <input
+          id="filterInput"
+          type="text"
+          value={filter}
+          onChange={(e) =>
+            dispatch({ type: "setFilter", filter: e.target.value })
+          }
+        />
         <div>
-          user list
+          {current.matches("loading") && "loading..."}
+          {current.matches("loadingError") &&
+            "Error while loading! Refresh to try again."}
+          {current.matches("loaded") && (
+            <UserList
+              users={filteredUsers}
+              selectedUser={selectedUser}
+              handleSelect={(user) => dispatch({ type: "selectUser", user })}
+              clearSelection={() => dispatch({ type: "clearSelection" })}
+            />
+          )}
+
           <div>
             <label htmlFor="nameInput">Name: </label>
-            <input id="nameInput" type="text" />
+            <input
+              id="nameInput"
+              type="text"
+              value={name}
+              onChange={(event) =>
+                dispatch({ type: "updateName", name: event.target.value })
+              }
+            />
             <label htmlFor="surnameInput">Surname: </label>
-            <input id="surnameInput" type="text" />
+            <input
+              id="surnameInput"
+              type="text"
+              value={surname}
+              onChange={(event) =>
+                dispatch({ type: "updateSurname", surname: event.target.value })
+              }
+            />
           </div>
         </div>
         <div>
-          <button>Create</button>
-          <button>Update</button>
-          <button>Delete</button>
+          <button
+            onClick={() => {
+              send({ type: "CREATE_USER", user: { name, surname } });
+            }}
+          >
+            Create
+          </button>
+          <button
+            onClick={() =>
+              send({
+                type: "UPDATE_USER",
+                user: { id: selectedUser?.id, name, surname },
+              })
+            }
+            disabled={!userSelected}
+          >
+            Update
+          </button>
+          <button
+            disabled={!userSelected}
+            onClick={() => send({ type: "DELETE_USER", user: selectedUser })}
+          >
+            Delete
+          </button>
         </div>
       </div>
+      <h3>Notes</h3>
+      <p>
+        Usually I wouldn't mix UI state with business logic. If we really wanted
+        to power this component with a state machine, I would probably go for
+        separate machines. I think the best way to handle complex form state
+        like this is having a state machine that manages the application
+        business logic and a local reducer that updates the UI.
+      </p>
     </article>
   );
 };
