@@ -5,6 +5,7 @@ import Counter from "./tasks/counter/Counter";
 import TemperatureConverter from "./tasks/temperatureConverter/TemperatureConverter";
 import FlightBooker from "./tasks/flightBooker/FlightBooker";
 import Timer from "./tasks/timer/Timer";
+import Crud from "./tasks/crud/Crud";
 
 import "./App.css";
 
@@ -26,6 +27,9 @@ function App() {
             <li>
               <Link to="/timer">Timer</Link>
             </li>
+            <li>
+              <Link to="/crud">CRUD</Link>
+            </li>
           </ul>
         </nav>
         <main className="content">
@@ -36,8 +40,14 @@ function App() {
             React, TypeScript and XState.
           </p>
           <p>
+            I lied - only the <strong>first five</strong> tasks will be solved
+            here. Final two tasks use specific widgets more related to desktop
+            GUI programming. Seems a bit out of scope for what I'm trying to
+            learn here.
+          </p>
+          <p>
             Zero effort was invested in making this look nice. Same approach was
-            applied to general code quality, with the exception of the state
+            applied to general code quality, with the exception of state
             management code which was the focus of this work.
           </p>
           <Switch>
@@ -52,6 +62,9 @@ function App() {
             </Route>
             <Route path="/timer">
               <Timer />
+            </Route>
+            <Route path="/crud">
+              <Crud />
             </Route>
           </Switch>
         </main>
