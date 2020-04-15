@@ -4,7 +4,6 @@ import { User, getUsers, deleteUser, createUser, updateUser } from "./users";
 interface UsersContext {
   users: User[];
   error: null | Error;
-  userBuffer: null | User;
 }
 
 const usersMachine = Machine<UsersContext>({
@@ -12,7 +11,6 @@ const usersMachine = Machine<UsersContext>({
   context: {
     users: [],
     error: null,
-    userBuffer: null,
   },
   initial: "initial",
   states: {
