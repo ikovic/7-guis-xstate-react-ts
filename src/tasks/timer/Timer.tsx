@@ -5,9 +5,9 @@ import timerMachine from "./timerMachine";
 
 const Timer = () => {
   const [state, send] = useMachine(timerMachine);
-  const { duration } = state.context;
+  const { duration, elapsed } = state.context;
 
-  console.log(state.value, { context: state.context });
+  const percentage = (elapsed / duration) * 100;
 
   return (
     <article>
@@ -37,11 +37,9 @@ const Timer = () => {
       </p>
       <h3>Solution</h3>
       <div>
-        Elapsed time: <strong>11.8s</strong>
+        Elapsed time: <strong>{elapsed.toFixed(2)}s</strong>
         <div>
-          <progress value="70" max="100">
-            70 %
-          </progress>
+          <progress value={percentage} max="100" />
         </div>
         <div>
           <label htmlFor="durationSlider">Duration: </label>
@@ -55,13 +53,13 @@ const Timer = () => {
             onChange={(event) =>
               send({
                 type: "SET_DURATION",
-                duration: Number(event.target.value) * 1000,
+                duration: Number(event.target.value),
               })
             }
           />
         </div>
         <div>
-          <button>Reset</button>
+          <button onClick={() => send("RESET")}>Reset</button>
         </div>
       </div>
     </article>
