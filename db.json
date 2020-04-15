@@ -1,0 +1,19 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Biggus",
+      "surname": "Dickus"
+    },
+    {
+      "id": 2,
+      "name": "Time",
+      "surname": "Enchanter"
+    },
+    {
+      "id": 3,
+      "name": "African",
+      "surname": "Swallow"
+    }
+  ]
+}

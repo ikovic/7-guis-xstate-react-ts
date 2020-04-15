@@ -14,6 +14,10 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.<br />
 You will also see any lint errors in the console.
 
+### `yarn start:be`
+
+Runs the JSON server used for task 5. Reads & writes to `db.json`.
+
 ### `yarn test`
 
 Launches the test runner in the interactive watch mode.<br />

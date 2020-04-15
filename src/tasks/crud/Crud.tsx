@@ -36,8 +36,32 @@ const Crud = () => {
         error-prone and a natural representation of the layout (layout builders
         are allowed, of course, but would increase the overhead).
       </p>
+      <p>
+        <strong>Note:</strong> task notes do not specify any kind of persistence
+        across different sessions, all the data could be stored in memory. To
+        make the task more relevant, I've added a server that holds the data in
+        a JSON file. This way we can see how to manage async requests within
+        XState.
+      </p>
       <h3>Solution</h3>
-      <div>NYI</div>
+      <div>
+        <label htmlFor="filterInput">Filter prefix: </label>
+        <input id="filterInput" type="text" />
+        <div>
+          user list
+          <div>
+            <label htmlFor="nameInput">Name: </label>
+            <input id="nameInput" type="text" />
+            <label htmlFor="surnameInput">Surname: </label>
+            <input id="surnameInput" type="text" />
+          </div>
+        </div>
+        <div>
+          <button>Create</button>
+          <button>Update</button>
+          <button>Delete</button>
+        </div>
+      </div>
     </article>
   );
 };
